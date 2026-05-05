@@ -68,12 +68,27 @@ jobs:
   # on the test results.
   notifications:
     needs: python-unit-tests
+    if: always() # Forces this job to run even if the previous job fails
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Notify on test results
+        env:
+          # The GITHUB_TOKEN is automatically provided by GitHub Actions
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ needs.python-unit-tests.result }}" == "success" ]; then
-            echo "success notifications go here"
+            echo "Tests passed. Creating an issue"
+            gh issue create \
+              --repo ${{ github.repository }} \
+              --title "Info: Python Unit Tests Passed" \
+              --body "The Python unit tests passed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.  [View the passing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+         
           else
-            echo "failure notifications go here"
+            echo "Tests failed! Creating an issue to notify the team..."
+            gh issue create \
+              --repo ${{ github.repository }} \
+              --title "Action Required: Python Unit Tests Failed" \
+              --body "The Python unit tests failed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.  [View the failing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           fi
