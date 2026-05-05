@@ -70,6 +70,8 @@ jobs:
     needs: python-unit-tests
     if: always() # Forces this job to run even if the previous job fails
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Notify on test results
         env:
