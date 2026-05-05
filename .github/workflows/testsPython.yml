@@ -83,12 +83,12 @@ jobs:
             gh issue create \
               --repo ${{ github.repository }} \
               --title "Info: Python Unit Tests Passed" \
-              --body "The Python unit tests passed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.%0A%0A[View the passing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+              --body "The Python unit tests passed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.  [View the passing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
          
           else
             echo "Tests failed! Creating an issue to notify the team..."
             gh issue create \
               --repo ${{ github.repository }} \
               --title "Action Required: Python Unit Tests Failed" \
-              --body "The Python unit tests failed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.%0A%0A[View the failing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+              --body "The Python unit tests failed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.  [View the failing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           fi
