@@ -74,14 +74,14 @@ jobs:
       - name: Notify on test results
         env:
           # The GITHUB_TOKEN is automatically provided by GitHub Actions
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ needs.python-unit-tests.result }}" == "success" ]; then
             echo "Tests passed. Creating an issue"
             gh issue create \
               --repo ${{ github.repository }} \
-              --title "Action Required: Python Unit Tests Failed" \
-              --body "The Python unit tests failed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.%0A%0A[View the passing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+              --title "Info: Python Unit Tests Passed" \
+              --body "The Python unit tests passed during run **${{ github.run_id }}** on branch **${{ github.ref_name }}**.%0A%0A[View the passing workflow run here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
          
           else
             echo "Tests failed! Creating an issue to notify the team..."
