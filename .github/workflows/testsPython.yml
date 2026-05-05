@@ -72,6 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify on test results
+        env:
+          # The GITHUB_TOKEN is automatically provided by GitHub Actions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ needs.python-unit-tests.result }}" == "success" ]; then
             echo "Tests passed. Creating an issue"
